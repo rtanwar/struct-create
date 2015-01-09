@@ -19,7 +19,7 @@ var defaults = Configuration{
 	DbName:     "world",
 	PkgName:    "Models",
 	TagLabel:   "orm",
-	DbServer:   "127.0.0.1",
+	DbServer:   "tcp(127.0.0.1:3306)",
 }
 
 var config Configuration
@@ -105,8 +105,8 @@ func writeStructs(schemas []ColumnSchema) (int, error) {
 }
 
 func getSchema() []ColumnSchema {
-	conn, err := sql.Open("mysql", config.DbUser+":"+config.DbPassword+"@"+"/information_schema")
-	// conn, err := sql.Open("mysql", config.DbUser+":"+config.DbPassword+"@"+config.DbServer+"/information_schema")
+	// conn, err := sql.Open("mysql", config.DbUser+":"+config.DbPassword+"@"+"/information_schema")
+	conn, err := sql.Open("mysql", config.DbUser+":"+config.DbPassword+"@"+config.DbServer+"/information_schema")
 	if err != nil {
 		log.Fatal(err)
 	}
