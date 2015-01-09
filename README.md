@@ -14,6 +14,7 @@ var defaults = Configuration{
 	// TAG_LABEL produces tags commonly used to match database field names with Go struct
 	//members. This will be skipped if the string is empty.
 	TagLabel: "db",
+	"db_server": "tcp(127.0.0.1:3306)",
 }
 ```
 
@@ -24,7 +25,8 @@ Or by a JSON file using the json flag `struct-create --json=test.json`
 	"db_password": "db_pass",
 	"db_name": "db_name",
 	"pkg_name": "JsonTest",
-	"tag_label": "db"
+	"tag_label": "db",
+	"db_server": "tcp(127.0.0.1:3306)",
 }
 ```
 
