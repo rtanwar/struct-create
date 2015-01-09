@@ -1,7 +1,8 @@
 {
-	"db_user": "db_user",
-	"db_password": "db_pass",
-	"db_name": "db_name",
-	"pkg_name": "JsonTest",
-	"tag_label": "db"
+	"db_user": "root",
+	"db_password": "",
+	"db_name": "world",
+	"pkg_name": "models",
+	"tag_label": "orm",
+	"db_server": "tcp(127.0.0.1:3306)"
 }

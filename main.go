@@ -10,14 +10,16 @@ import (
 	"log"
 	"os"
 	"strings"
+	"time"
 )
 
 var defaults = Configuration{
-	DbUser: "db_user",
-	DbPassword: "db_pw",
-	DbName: "bd_name",
-	PkgName: "DbStructs",
-	TagLabel: "db",
+	DbUser:     "root",
+	DbPassword: "",
+	DbName:     "world",
+	PkgName:    "Models",
+	TagLabel:   "orm",
+	DbServer:   "127.0.0.1",
 }
 
 var config Configuration
@@ -30,6 +32,7 @@ type Configuration struct {
 	PkgName string `json:"pkg_name"`
 	// TagLabel produces tags commonly used to match database field names with Go struct members
 	TagLabel string `json:"tag_label"`
+	DbServer string `json:"db_server"`
 }
 
 type ColumnSchema struct {
@@ -85,7 +88,7 @@ func writeStructs(schemas []ColumnSchema) (int, error) {
 	out = out + "}"
 
 	// Now add the header section
-	header := "package " + config.PkgName + "\n\n"
+	header := "package " + config.PkgName + "\n\n" + time.Now().Local().Format(time.RFC850)
 	if len(neededImports) > 0 {
 		header = header + "import (\n"
 		for imp := range neededImports {
@@ -102,7 +105,8 @@ func writeStructs(schemas []ColumnSchema) (int, error) {
 }
 
 func getSchema() []ColumnSchema {
-	conn, err := sql.Open("mysql", config.DbUser+":"+config.DbPassword+"@/information_schema")
+	conn, err := sql.Open("mysql", config.DbUser+":"+config.DbPassword+"@"+"/information_schema")
+	// conn, err := sql.Open("mysql", config.DbUser+":"+config.DbPassword+"@"+config.DbServer+"/information_schema")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -184,7 +188,7 @@ var configFile = flag.String("json", "", "Config file")
 
 func main() {
 	flag.Parse()
-	
+
 	if len(*configFile) > 0 {
 		f, err := os.Open(*configFile)
 		if err != nil {
